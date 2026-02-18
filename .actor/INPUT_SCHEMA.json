@@ -10,18 +10,24 @@
             "editor": "requestListSources",
             "default": [
                 {
-                    "url": "https://theresanaiforthat.com/ai/?ref=featured&v=full"
+                    "url": "https://theresanaiforthat.com/leaderboard/"
                 },
                 {
-                    "url": "https://www.futuretools.io/?pricing-model=free"
+                    "url": "https://theresanaiforthat.com/leaderboard/year/2025"
                 },
                 {
-                    "url": "https://www.producthunt.com/topics/artificial-intelligence"
+                    "url": "https://theresanaiforthat.com/leaderboard/year/2024"
                 }
             ],
             "prefill": [
                 {
-                    "url": "https://theresanaiforthat.com/ai/?ref=featured&v=full"
+                    "url": "https://theresanaiforthat.com/leaderboard/"
+                },
+                {
+                    "url": "https://theresanaiforthat.com/leaderboard/year/2025"
+                },
+                {
+                    "url": "https://theresanaiforthat.com/leaderboard/year/2024"
                 }
             ]
         },

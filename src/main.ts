@@ -22,13 +22,20 @@ function getRandomUserAgent(): string {
     return USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
 }
 
-function getRouterForUrl(url: string): 'THERESANAIFORTHAT' | 'DEFAULT' {
-    const urlLower = url.toLowerCase();
-    
+function getRouterForUrl(urlOrValue: unknown): 'THERESANAIFORTHAT' | 'DEFAULT' {
+    // accept string or object with `url` property; be defensive to avoid runtime errors
+    const urlStr = typeof urlOrValue === 'string'
+        ? urlOrValue
+        : (urlOrValue && typeof urlOrValue === 'object' && 'url' in (urlOrValue as any))
+            ? (urlOrValue as any).url
+            : '';
+
+    const urlLower = (urlStr || '').toLowerCase();
+
     if (urlLower.includes('theresanaiforthat.com')) {
         return 'THERESANAIFORTHAT';
     }
-    
+
     return 'DEFAULT';
 }
 
@@ -37,9 +44,16 @@ Actor.main(async () => {
 
     const input = await Actor.getInput<ActorInput>();
     
-    const startUrls = input?.startUrls && input.startUrls.length > 0 
-        ? input.startUrls 
+    const rawStartUrls = input?.startUrls && input.startUrls.length > 0
+        ? input.startUrls
         : DEFAULT_START_URLS;
+
+    // Support both `string` entries and `{ url: string }` objects coming from the UI
+    const startUrls: string[] = (rawStartUrls as any[]).map((s: any) => {
+        if (typeof s === 'string') return s;
+        if (s && typeof s === 'object' && typeof s.url === 'string') return s.url;
+        return '';
+    }).filter(Boolean);
     
     const maxItems = input?.maxItems ?? 1000;
 

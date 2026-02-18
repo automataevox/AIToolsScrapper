@@ -10,8 +10,8 @@ RUN npm ci
 COPY . ./
 RUN npm run build
 
-# Runtime stage: use Apify base image (Node 20) with only production deps
-FROM apify/actor-node:20 AS runtime
+# Runtime stage: use Apify Playwright Chromium base image so browsers can be launched
+FROM apify/actor-node-playwright:20 AS runtime
 WORKDIR /app
 
 # Install only production dependencies for a smaller image

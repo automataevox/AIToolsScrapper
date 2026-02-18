@@ -8,20 +8,18 @@ RUN npm ci
 
 # Copy source and build
 COPY . ./
-RUN npm run build
+RUN npm run build && npm prune --production
 
 # Runtime stage: use Apify Playwright Chromium base image so browsers can be launched
 FROM apify/actor-node-playwright:20 AS runtime
 WORKDIR /app
 
-# Install only production dependencies for a smaller image
+# Copy package metadata (optional) and production node_modules from builder to avoid running npm as non-root
 COPY package*.json ./
-RUN npm ci --omit=dev --no-audit --no-fund
+COPY --from=builder /app/node_modules ./node_modules
 
-# Copy built files and necessary metadata from builder
+# Copy built files from builder
 COPY --from=builder /app/dist ./dist
-# Optionally copy metadata if present in the build context; avoid failing when absent
-# Copying README/INPUT_SCHEMA/.actor is not required for runtime execution, so skip.
 
 # Default command: run the built actor
 CMD ["node", "dist/main.js"]

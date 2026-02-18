@@ -27,6 +27,7 @@ export interface ScraperContext {
 
 export interface ExtractedTool {
     name: string;
+    version?: string;
     description: string;
     url: string;
     pricing?: string;

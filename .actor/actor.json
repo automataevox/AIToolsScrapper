@@ -19,9 +19,9 @@
                             "name",
                             "description",
                             "url",
-                            "pricing",
                             "category",
-                            "source"
+                            "source",
+                            "scrapedAt"
                         ]
                     },
                     "display": {
@@ -39,10 +39,6 @@
                                 "label": "URL",
                                 "format": "link"
                             },
-                            "pricing": {
-                                "label": "Pricing",
-                                "format": "text"
-                            },
                             "category": {
                                 "label": "Category",
                                 "format": "text"
@@ -50,6 +46,10 @@
                             "source": {
                                 "label": "Source",
                                 "format": "text"
+                            },
+                            "scrapedAt": {
+                                "label": "Scraped At",
+                                "format": "date"
                             }
                         }
                     }

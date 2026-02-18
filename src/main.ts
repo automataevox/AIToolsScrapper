@@ -1,12 +1,14 @@
 import { Actor, log } from 'apify';
-import { CheerioCrawler, ProxyConfiguration, CheerioCrawlingContext } from 'crawlee';
+import { PlaywrightCrawler, ProxyConfiguration } from 'crawlee';
 import { ActorInput, ScraperContext } from './types.js';
-import { theresanaiforthatRouter } from './routes/theresanaiforthat.js';
-import { producthuntRouter } from './routes/producthunt.js';
+import { handleTheresAnAIForThat } from './routes/theresanaiforthat.js';
+// import { producthuntRouter } from './routes/producthunt.js';
 
 const DEFAULT_START_URLS = [
-    'https://theresanaiforthat.com/ai/?ref=featured&v=full',
-    'https://www.producthunt.com/topics/artificial-intelligence',
+    'https://theresanaiforthat.com/leaderboard',
+    'https://theresanaiforthat.com/leaderboard/year/2025',
+    'https://theresanaiforthat.com/leaderboard/year/2024',
+    //'https://www.producthunt.com/topics/artificial-intelligence',
 ];
 
 const USER_AGENTS = [
@@ -20,19 +22,11 @@ function getRandomUserAgent(): string {
     return USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
 }
 
-function getRouterForUrl(url: string): 'THERESANAIFORTHAT' | 'FUTURETOOLS' | 'PRODUCTHUNT' | 'PRODUCTHUNT_LIST' | 'PRODUCTHUNT_DETAIL' | 'DEFAULT' {
+function getRouterForUrl(url: string): 'THERESANAIFORTHAT' | 'DEFAULT' {
     const urlLower = url.toLowerCase();
     
     if (urlLower.includes('theresanaiforthat.com')) {
         return 'THERESANAIFORTHAT';
-    }
-    if (urlLower.includes('producthunt.com')) {
-        // Check if it's a detail page
-        if (urlLower.includes('/posts/')) {
-            return 'PRODUCTHUNT_DETAIL';
-        }
-        // Otherwise it's a listing page
-        return 'PRODUCTHUNT_LIST';
     }
     
     return 'DEFAULT';
@@ -47,7 +41,7 @@ Actor.main(async () => {
         ? input.startUrls 
         : DEFAULT_START_URLS;
     
-    const maxItems = input?.maxItems ?? 100;
+    const maxItems = input?.maxItems ?? 1000;
 
     log.info(`Configuration: maxItems=${maxItems}, startUrls=${startUrls.length}`);
 
@@ -67,15 +61,16 @@ Actor.main(async () => {
         seenTools: new Set<string>(),
     };
 
-    const crawler = new CheerioCrawler({
+    const crawler = new PlaywrightCrawler({
         proxyConfiguration,
-        maxConcurrency: 5,
+        maxConcurrency: 2,
         maxRequestsPerCrawl: maxItems * 3,
-        requestHandlerTimeoutSecs: 60,
+        requestHandlerTimeoutSecs: 180,
         maxRequestRetries: 3,
-        navigationTimeoutSecs: 30,
+        navigationTimeoutSecs: 60,
+        headless: true,
         
-        async requestHandler(crawlerContext: CheerioCrawlingContext) {
+        async requestHandler(crawlerContext) {
             const { request } = crawlerContext;
             const routerLabel = request.userData.label || getRouterForUrl(request.url);
 
@@ -90,27 +85,15 @@ Actor.main(async () => {
             try {
                 switch (routerLabel) {
                     case 'THERESANAIFORTHAT':
-                        await theresanaiforthatRouter(crawlerContext);
-                        break;
-                    case 'PRODUCTHUNT':
-                    case 'PRODUCTHUNT_LIST':
-                    case 'PRODUCTHUNT_DETAIL':
-                        await producthuntRouter(crawlerContext);
+                        await handleTheresAnAIForThat(crawlerContext, context);
                         break;
                     default:
                         log.warning(`Unknown router label: ${routerLabel}, attempting auto-detection`);
                         const detectedLabel = getRouterForUrl(request.url);
                         if (detectedLabel !== 'DEFAULT') {
                             request.userData.label = detectedLabel;
-                            switch (detectedLabel) {
-                                case 'THERESANAIFORTHAT':
-                                    await theresanaiforthatRouter(crawlerContext);
-                                    break;
-                                case 'PRODUCTHUNT':
-                                case 'PRODUCTHUNT_LIST':
-                                case 'PRODUCTHUNT_DETAIL':
-                                    await producthuntRouter(crawlerContext);
-                                    break;
+                            if (detectedLabel === 'THERESANAIFORTHAT') {
+                                await handleTheresAnAIForThat(crawlerContext, context);
                             }
                         } else {
                             log.error(`Could not determine router for URL: ${request.url}`);
@@ -157,7 +140,8 @@ Actor.main(async () => {
 
     await crawler.run(requests);
 
-    log.info(`Scraping completed. Total items scraped: ${context.scrapedCount}`);
+    const finalContext = crawler.stats as unknown as ScraperContext;
+    log.info(`Scraping completed. Total items scraped: ${finalContext.scrapedCount}`);
     
     await Actor.exit();
 });

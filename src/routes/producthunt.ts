@@ -23,20 +23,9 @@ producthuntRouter.addHandler('PRODUCTHUNT_LIST', async ({ $, request, enqueueLin
     const detailLinks: string[] = [];
     
     // Try multiple selectors to find product links
-    $('a[href*="/posts/"]').each((_: number, element: any) => {
+    $('a[href*="/products/"]').each((_: number, element: any) => {
         const href = $(element).attr('href');
         if (href && href.match(/\/posts\/[\w-]+$/)) {
-            const fullUrl = extractUrl(href, request.loadedUrl || request.url);
-            if (!detailLinks.includes(fullUrl)) {
-                detailLinks.push(fullUrl);
-            }
-        }
-    });
-
-    // Also try ul > li structure mentioned by user
-    $('#content ul li a, [id*="content"] ul li a').each((_: number, element: any) => {
-        const href = $(element).attr('href');
-        if (href && href.includes('/posts/')) {
             const fullUrl = extractUrl(href, request.loadedUrl || request.url);
             if (!detailLinks.includes(fullUrl)) {
                 detailLinks.push(fullUrl);
@@ -154,7 +143,7 @@ producthuntRouter.addDefaultHandler(async (ctx: CheerioCrawlingContext) => {
     }
 
     // Check if this is a detail page or listing page based on URL
-    if (ctx.request.url.includes('/posts/')) {
+    if (ctx.request.url.includes('/products/')) {
         // Set label and let the router handle it
         ctx.request.userData.label = 'PRODUCTHUNT_DETAIL';
     } else {

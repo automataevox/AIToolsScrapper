@@ -1,36 +1,34 @@
 # AI Tools Directory Scraper
 
-A production-ready Apify Actor that scrapes AI tool directory websites and extracts structured data about AI tools, including names, descriptions, URLs, pricing information, categories, and tags.
+A production-ready Apify Actor that scrapes AI tool directory websites and extracts structured data about AI tools, including names, descriptions, URLs, and categories.
 
 ## 🎯 Features
 
-- **Multi-Source Scraping**: Scrapes from multiple AI tool directories:
-  - [TheresAnAIForThat.com](https://theresanaiforthat.com)
-  - [FutureTools.io](https://futuretools.io)
-  - [ProductHunt.com AI Section](https://www.producthunt.com/topics/artificial-intelligence)
+- **TheresAnAIForThat.com Scraping**: 
+  - Supports infinite scroll pages
+  - Handles dynamic JavaScript content using Playwright
+  - Scrapes leaderboards and individual tool category pages
 
 - **Structured Data Extraction**: Extracts comprehensive information:
   - Tool name and description
   - Official website URL
-  - Pricing model (Free, Freemium, Paid, etc.)
-  - Categories and tags
+  - Tool category
   - Source and timestamp
 
 - **Smart Features**:
-  - Automatic pricing detection using heuristics
-  - Tag extraction from content
-  - Deduplication by name + URL
-  - Pagination support
-  - Configurable item limits
+  - **Infinite scroll handling** - Automatically scrolls and loads all available tools
+  - **Deduplication** by name + URL
+  - Configurable item limits (default: 1000)
   - Proxy support for anti-blocking
+  - Fast extraction using browser-side evaluation
 
 - **Production Quality**:
   - Written in TypeScript with strict typing
+  - Uses Playwright for JavaScript-rendered content
   - Modular architecture for easy extension
   - Comprehensive error handling
   - Request throttling and random delays
   - Rotating user agents
-  - Respects robots.txt awareness
 
 ## 📦 Output Data Structure
 
@@ -41,11 +39,9 @@ Each scraped tool follows this schema:
   "name": "ChatGPT",
   "description": "AI-powered conversational assistant that can answer questions, write content, and help with various tasks",
   "url": "https://chat.openai.com",
-  "pricing": "Freemium",
-  "category": "Productivity",
-  "tags": ["Natural Language Processing", "Chatbot", "Writing"],
+  "category": "Chatbots",
   "source": "TheresAnAIForThat",
-  "sourceUrl": "https://theresanaiforthat.com/ai/?ref=featured&v=full",
+  "sourceUrl": "https://theresanaiforthat.com/leaderboard/",
   "scrapedAt": "2026-02-18T10:30:00.000Z"
 }
 ```
@@ -57,9 +53,7 @@ Each scraped tool follows this schema:
 | `name` | string | Name of the AI tool |
 | `description` | string | Description of what the tool does |
 | `url` | string | Official website URL |
-| `pricing` | string? | Pricing model (Free, Freemium, Paid, etc.) |
-| `category` | string? | Tool category |
-| `tags` | string[]? | Array of relevant tags |
+| `category` | string? | Tool category (e.g., Chatbots, Audio, Design) |
 | `source` | string | Source website name |
 | `sourceUrl` | string | URL where the tool was found |
 | `scrapedAt` | string | ISO timestamp of when it was scraped |
@@ -71,10 +65,9 @@ Each scraped tool follows this schema:
 ```json
 {
   "startUrls": [
-    "https://theresanaiforthat.com/ai/?ref=featured&v=full",
-    "https://www.futuretools.io/?pricing-model=free"
+    "https://theresanaiforthat.com/leaderboard"
   ],
-  "maxItems": 100,
+  "maxItems": 1000,
   "proxyConfiguration": {
     "useApifyProxy": true,
     "apifyProxyGroups": ["RESIDENTIAL"]
@@ -86,13 +79,11 @@ Each scraped tool follows this schema:
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `startUrls` | string[] | See default URLs | URLs to start scraping from |
-| `maxItems` | number | 100 | Maximum number of tools to scrape |
+| `startUrls` | string[] | ["https://theresanaiforthat.com/leaderboard"] | URLs to start scraping from |
+| `maxItems` | number | 1000 | Maximum number of tools to scrape |
 | `proxyConfiguration` | object | undefined | Proxy settings for the crawler |
 | `proxyConfiguration.useApifyProxy` | boolean | false | Whether to use Apify proxy |
 | `proxyConfiguration.apifyProxyGroups` | string[] | undefined | Proxy groups to use |
-
-### Default Start URLs
 
 If no `startUrls` are provided, the Actor uses these defaults:
 - `https://theresanaiforthat.com/ai/?ref=featured&v=full`

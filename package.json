@@ -22,8 +22,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "apify": "^3.1.10",
+    "cheerio": "^1.0.0-rc.12",
     "crawlee": "^3.5.4",
-    "cheerio": "^1.0.0-rc.12"
+    "playwright": "^1.58.2"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",

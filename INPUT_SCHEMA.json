@@ -1,0 +1,50 @@
+{
+    "title": "AI Tools Directory Scraper Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "startUrls": {
+            "title": "Start URLs",
+            "type": "array",
+            "description": "List of URLs to start scraping from. Leave empty to use default URLs from TheresAnAIForThat, FutureTools, and ProductHunt.",
+            "editor": "requestListSources",
+            "default": [
+                {
+                    "url": "https://theresanaiforthat.com/ai/?ref=featured&v=full"
+                },
+                {
+                    "url": "https://www.futuretools.io/?pricing-model=free"
+                },
+                {
+                    "url": "https://www.producthunt.com/topics/artificial-intelligence"
+                }
+            ],
+            "prefill": [
+                {
+                    "url": "https://theresanaiforthat.com/ai/?ref=featured&v=full"
+                }
+            ]
+        },
+        "maxItems": {
+            "title": "Max Items",
+            "type": "integer",
+            "description": "Maximum number of AI tools to scrape. Use 0 for unlimited (not recommended).",
+            "minimum": 0,
+            "default": 100,
+            "prefill": 100
+        },
+        "proxyConfiguration": {
+            "title": "Proxy Configuration",
+            "type": "object",
+            "description": "Configure proxy settings to avoid blocking. Residential proxies recommended for best results.",
+            "editor": "proxy",
+            "default": {
+                "useApifyProxy": true
+            },
+            "prefill": {
+                "useApifyProxy": true
+            }
+        }
+    },
+    "required": []
+}

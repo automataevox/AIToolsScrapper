@@ -1,0 +1,57 @@
+[
+  {
+    "name": "ChatGPT",
+    "description": "AI-powered conversational assistant that can answer questions, write content, code, and help with various tasks using natural language processing",
+    "url": "https://chat.openai.com",
+    "pricing": "Freemium",
+    "category": "Productivity",
+    "tags": ["Natural Language Processing", "Chatbot", "Writing"],
+    "source": "TheresAnAIForThat",
+    "sourceUrl": "https://theresanaiforthat.com/ai/?ref=featured&v=full",
+    "scrapedAt": "2026-02-18T10:30:00.000Z"
+  },
+  {
+    "name": "Midjourney",
+    "description": "AI art generator that creates stunning images from text descriptions using advanced machine learning models",
+    "url": "https://www.midjourney.com",
+    "pricing": "Paid",
+    "category": "Design",
+    "tags": ["Image Generation", "Design", "Computer Vision"],
+    "source": "FutureTools",
+    "sourceUrl": "https://www.futuretools.io/?pricing-model=free",
+    "scrapedAt": "2026-02-18T10:30:15.000Z"
+  },
+  {
+    "name": "Notion AI",
+    "description": "AI writing assistant built directly into Notion that helps you write, brainstorm, edit, and summarize content",
+    "url": "https://www.notion.so/product/ai",
+    "pricing": "Freemium",
+    "category": "Productivity",
+    "tags": ["Writing", "Productivity", "Automation"],
+    "source": "ProductHunt",
+    "sourceUrl": "https://www.producthunt.com/topics/artificial-intelligence",
+    "scrapedAt": "2026-02-18T10:30:30.000Z"
+  },
+  {
+    "name": "Stable Diffusion",
+    "description": "Open source AI model for generating detailed images from text descriptions, offering full control and customization",
+    "url": "https://stability.ai",
+    "pricing": "Open Source",
+    "category": "Design",
+    "tags": ["Image Generation", "Computer Vision", "Design"],
+    "source": "TheresAnAIForThat",
+    "sourceUrl": "https://theresanaiforthat.com/ai/?ref=featured&v=full",
+    "scrapedAt": "2026-02-18T10:30:45.000Z"
+  },
+  {
+    "name": "Copy.ai",
+    "description": "AI-powered copywriting tool that helps create marketing copy, product descriptions, and social media content",
+    "url": "https://www.copy.ai",
+    "pricing": "Freemium",
+    "category": "Marketing",
+    "tags": ["Writing", "Marketing", "Productivity"],
+    "source": "FutureTools",
+    "sourceUrl": "https://www.futuretools.io/?pricing-model=free",
+    "scrapedAt": "2026-02-18T10:31:00.000Z"
+  }
+]

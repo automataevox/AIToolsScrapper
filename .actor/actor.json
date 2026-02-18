@@ -1,0 +1,60 @@
+{
+    "actorSpecification": 1,
+    "name": "ai-tools-directory-scraper",
+    "version": "1.0",
+    "buildTag": "latest",
+    "environmentVariables": {},
+    "dockerfile": "./Dockerfile",
+    "readme": "./README.md",
+    "input": "./INPUT_SCHEMA.json",
+    "storages": {
+        "dataset": {
+            "actorSpecification": 1,
+            "title": "AI Tools",
+            "views": {
+                "overview": {
+                    "title": "Overview",
+                    "transformation": {
+                        "fields": [
+                            "name",
+                            "description",
+                            "url",
+                            "pricing",
+                            "category",
+                            "source"
+                        ]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "name": {
+                                "label": "Tool Name",
+                                "format": "text"
+                            },
+                            "description": {
+                                "label": "Description",
+                                "format": "text"
+                            },
+                            "url": {
+                                "label": "URL",
+                                "format": "link"
+                            },
+                            "pricing": {
+                                "label": "Pricing",
+                                "format": "text"
+                            },
+                            "category": {
+                                "label": "Category",
+                                "format": "text"
+                            },
+                            "source": {
+                                "label": "Source",
+                                "format": "text"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

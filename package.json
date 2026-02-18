@@ -1,0 +1,36 @@
+{
+  "name": "ai-tools-directory-scraper",
+  "version": "1.0.0",
+  "description": "Production-ready Apify Actor that scrapes AI tool directories and extracts structured data about AI tools, including pricing, categories, and descriptions.",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "npm run build && node dist/main.js",
+    "build": "tsc",
+    "dev": "ts-node src/main.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "apify",
+    "actor",
+    "scraper",
+    "ai-tools",
+    "directory",
+    "crawlee",
+    "typescript"
+  ],
+  "author": "Your Name",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "apify": "^3.1.10",
+    "crawlee": "^3.5.4",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

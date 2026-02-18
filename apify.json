@@ -1,0 +1,7 @@
+{
+  "name": "ai-tools-directory-scraper",
+  "version": "1.0.0",
+  "buildTag": "latest",
+  "env": {},
+  "template": "typescript"
+}
